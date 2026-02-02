@@ -15,7 +15,7 @@ class MyComputersModel with ChangeNotifier {
   // 백엔드 서버 URL (설정에서 가져오거나 하드코딩)
   String get backendUrl {
     final url = bind.mainGetLocalOption(key: 'my-computers-backend-url');
-    return url.isNotEmpty ? url : 'http://localhost:8081';
+    return url.isNotEmpty ? url : 'https://desk.on1.kr';
   }
 
   // 저장된 토큰
