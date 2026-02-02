@@ -823,6 +823,9 @@ abstract class BasePeerCard extends StatelessWidget {
               break;
             case PeerTabIndex.group:
               break;
+            case PeerTabIndex.myComputers:
+              // MyComputers handles deletion through its own view
+              break;
           }
           if (tab != PeerTabIndex.ab) {
             showToast(translate('Successful'));

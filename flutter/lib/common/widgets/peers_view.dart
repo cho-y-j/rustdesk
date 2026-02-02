@@ -441,6 +441,9 @@ abstract class BasePeersView extends StatelessWidget {
       case PeerTabIndex.group:
         peers = gFFI.groupModel.peersModel;
         break;
+      case PeerTabIndex.myComputers:
+        peers = gFFI.recentPeersModel; // MyComputers uses its own view
+        break;
     }
     return _PeersView(
         peers: peers,
