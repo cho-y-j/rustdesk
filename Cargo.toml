@@ -1,11 +1,11 @@
 [package]
-name = "remote-helper"
+name = "rustdesk"
 version = "1.4.5"
 authors = ["rustdesk <info@rustdesk.com>"]
 edition = "2021"
 build= "build.rs"
 description = "RustDesk Remote Desktop"
-default-run = "remote-helper"
+default-run = "rustdesk"
 rust-version = "1.75"
 
 [lib]
@@ -216,7 +216,7 @@ libxdo-sys = { path = "libs/libxdo-sys-stub" }
 LegalCopyright = "Copyright © 2025 Purslane Ltd. All rights reserved."
 ProductName = "원격도우미"
 FileDescription = "원격도우미 Remote Support"
-OriginalFilename = "remote-helper.exe"
+OriginalFilename = "rustdesk.exe"
 
 [target.'cfg(target_os="windows")'.build-dependencies]
 winres = "0.1"
