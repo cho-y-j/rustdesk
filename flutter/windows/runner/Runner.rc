@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "On1" "\0"
-            VALUE "FileDescription", "Deskon Remote Desktop" "\0"
+            VALUE "FileDescription", "DeskOn Remote Desktop" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "deskon" "\0"
             VALUE "LegalCopyright", "Copyright © 2025 On1. All rights reserved." "\0"
             VALUE "OriginalFilename", "deskon.exe" "\0"
-            VALUE "ProductName", "Deskon" "\0"
+            VALUE "ProductName", "DeskOn" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
