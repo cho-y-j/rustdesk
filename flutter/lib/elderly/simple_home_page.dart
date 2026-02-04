@@ -111,7 +111,7 @@ class _SimpleHomePageState extends State<SimpleHomePage> {
         ),
         const SizedBox(height: 16),
         const Text(
-          '원격도우미',
+          'Deskon',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,

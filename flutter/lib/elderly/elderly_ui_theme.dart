@@ -249,7 +249,7 @@ class ElderlyTheme {
 class ElderlyKoreanStrings {
   static const Map<String, String> strings = {
     // Main screen
-    'app_name': '원격도우미',
+    'app_name': 'Deskon',
     'my_code': '내 연결 코드',
     'copy_code': '코드 복사',
     'code_copied': '코드가 복사되었습니다',

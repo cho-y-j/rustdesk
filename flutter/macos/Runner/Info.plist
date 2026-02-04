@@ -29,7 +29,7 @@
 			<string>kr.on1.desk</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>onremote</string>
+				<string>deskon</string>
 			</array>
 		</dict>
 	</array>
