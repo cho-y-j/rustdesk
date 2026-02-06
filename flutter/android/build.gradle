@@ -14,6 +14,17 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// Set Kotlin JVM target to match Java for all subprojects
+gradle.projectsEvaluated {
+    subprojects.each { project ->
+        project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
