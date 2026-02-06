@@ -14,13 +14,17 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-// Set Kotlin JVM target to match Java for all subprojects
+// Force all Java and Kotlin to use JVM 17 for consistency
 gradle.projectsEvaluated {
     subprojects.each { project ->
         project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
+        }
+        project.tasks.withType(JavaCompile).configureEach {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
     }
 }
