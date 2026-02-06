@@ -14,23 +14,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-// Ensure consistent Java and Kotlin JVM target versions across all modules
-gradle.projectsEvaluated {
-    subprojects.each { project ->
-        // Set Kotlin JVM target
-        project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-        // Set Java compile options
-        project.tasks.withType(JavaCompile).configureEach {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
-        }
-    }
-}
-
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
