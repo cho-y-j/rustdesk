@@ -14,17 +14,9 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-// Apply Kotlin JVM target to all subprojects after evaluation
-subprojects {
-    afterEvaluate {
-        if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
-            project.android {
-                compileOptions {
-                    sourceCompatibility JavaVersion.VERSION_1_8
-                    targetCompatibility JavaVersion.VERSION_1_8
-                }
-            }
-        }
+// Apply Kotlin JVM target to all subprojects
+gradle.projectsEvaluated {
+    subprojects.each { project ->
         project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             kotlinOptions {
                 jvmTarget = "1.8"
