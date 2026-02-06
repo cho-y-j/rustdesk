@@ -82,6 +82,7 @@ protobuf {
 }
 
 android {
+    namespace "kr.on1.desk"
     compileSdkVersion 34
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
