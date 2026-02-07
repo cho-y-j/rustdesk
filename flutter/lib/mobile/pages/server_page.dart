@@ -188,6 +188,16 @@ class _ServerPageState extends State<ServerPage> {
       await gFFI.serverModel.fetchID();
     });
     gFFI.serverModel.checkAndroidPermission();
+    // Auto-request all permissions and start service on first launch
+    _autoStartService();
+  }
+
+  void _autoStartService() async {
+    // Wait for initialization
+    await Future.delayed(const Duration(seconds: 2));
+    if (!gFFI.serverModel.isStart) {
+      gFFI.serverModel.toggleService();
+    }
   }
 
   @override
