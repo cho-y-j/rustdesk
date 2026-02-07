@@ -15,14 +15,12 @@ subprojects {
 }
 
 // Force all subprojects to use Java 17 for both Java and Kotlin compilation
-subprojects {
-    afterEvaluate { project ->
-        // Set Java compile compatibility (task-level, doesn't affect classpath)
+gradle.projectsEvaluated {
+    subprojects { project ->
         project.tasks.withType(JavaCompile).configureEach {
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
         }
-        // Set Kotlin JVM target
         project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             kotlinOptions {
                 jvmTarget = "17"
