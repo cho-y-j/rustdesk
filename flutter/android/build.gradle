@@ -14,16 +14,13 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-// Force all subprojects to use Java 17 for both Java and Kotlin compilation
+// Force Kotlin to match Java 1.8 (default for most plugins)
+// Do NOT set Java options globally - it breaks file_picker's Android SDK classpath
 gradle.projectsEvaluated {
     subprojects { project ->
-        project.tasks.withType(JavaCompile).configureEach {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
-        }
         project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "1.8"
             }
         }
     }
