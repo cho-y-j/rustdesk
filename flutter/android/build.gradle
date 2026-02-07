@@ -14,6 +14,25 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// Force Kotlin to match each plugin's Java version
+// Plugins that use Java 1.8: external_path, desktop_drop, file_picker
+// Plugins that use Java 17: wakelock_plus
+gradle.projectsEvaluated {
+    subprojects.each { sub ->
+        if (sub.hasProperty('android')) {
+            def javaVersion = sub.android.compileOptions.sourceCompatibility.toString()
+            def kotlinTarget = javaVersion.replace("1.", "").replace("VERSION_", "")
+            if (kotlinTarget == "8") kotlinTarget = "1.8"
+
+            sub.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                kotlinOptions {
+                    jvmTarget = kotlinTarget
+                }
+            }
+        }
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
