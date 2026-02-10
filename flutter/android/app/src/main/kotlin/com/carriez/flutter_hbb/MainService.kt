@@ -243,7 +243,9 @@ class MainService : Service() {
         // keep the config dir same with flutter
         val prefs = applicationContext.getSharedPreferences(KEY_SHARED_PREFERENCES, FlutterActivity.MODE_PRIVATE)
         val configPath = prefs.getString(KEY_APP_DIR_CONFIG_PATH, "") ?: ""
+        Log.d(logTag, "configPath='$configPath', starting server...")
         FFI.startServer(configPath, "")
+        Log.d(logTag, "FFI.startServer() returned")
 
         createForegroundNotification()
     }
@@ -337,6 +339,17 @@ class MainService : Service() {
                 getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
 
             intent.getParcelableExtra<Intent>(EXT_MEDIA_PROJECTION_RES_INTENT)?.let {
+                // Upgrade foreground service type to mediaProjection BEFORE calling getMediaProjection()
+                // Android 14+ requires the service to have mediaProjection type before MediaProjection.start() is called
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    try {
+                        val notification = notificationBuilder.build()
+                        startForeground(DEFAULT_NOTIFY_ID, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
+                        Log.d(logTag, "Upgraded foreground service type to MEDIA_PROJECTION")
+                    } catch (e: Exception) {
+                        Log.e(logTag, "Failed to upgrade foreground service type: ${e.message}")
+                    }
+                }
                 mediaProjection =
                     mediaProjectionManager.getMediaProjection(Activity.RESULT_OK, it)
                 checkMediaPermission()
@@ -539,6 +552,13 @@ class MainService : Service() {
                 it.resize(SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi)
                 it.setSurface(s)
             } ?: let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    mp.registerCallback(object : MediaProjection.Callback() {
+                        override fun onStop() {
+                            Log.d(logTag, "MediaProjection stopped by system")
+                        }
+                    }, serviceHandler)
+                }
                 virtualDisplay = mp.createVirtualDisplay(
                     "RustDeskVD",
                     SCREEN_INFO.width, SCREEN_INFO.height, SCREEN_INFO.dpi, VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
@@ -642,7 +662,14 @@ class MainService : Service() {
             .setColor(ContextCompat.getColor(this, R.color.primary))
             .setWhen(System.currentTimeMillis())
             .build()
-        startForeground(DEFAULT_NOTIFY_ID, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && mediaProjection == null) {
+            // Android 14+: start with dataSync type first, upgrade to mediaProjection after permission is granted
+            startForeground(DEFAULT_NOTIFY_ID, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(DEFAULT_NOTIFY_ID, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
+        } else {
+            startForeground(DEFAULT_NOTIFY_ID, notification)
+        }
     }
 
     private fun loginRequestNotification(

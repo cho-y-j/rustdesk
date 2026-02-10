@@ -392,10 +392,10 @@ packages:
     dependency: "direct main"
     description:
       name: extended_text
-      sha256: b0b6e87b8475048c3d6ae5b80faa4d6c9ad838568b3b88f56ee614a91f79fbb9
+      sha256: "38c1cac571d6eaf406f4b80040c1f88561e7617ad90795aac6a1be0a8d0bb676"
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.2"
+    version: "14.0.0"
   extended_text_library:
     dependency: transitive
     description:
